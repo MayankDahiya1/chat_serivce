@@ -1,12 +1,13 @@
 /*
 * IMPORTS
 */
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 /*
 * LOADS ENV
 */
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 
 /*
@@ -40,4 +41,7 @@ async function _GenerateRefreshToken(prisma, userId, payload, device, ip) {
     return token;
 }
 
-module.exports = { _GenerateAccessToken, _GenerateRefreshToken };
+/*
+* EXPORTS
+*/
+export { _GenerateAccessToken, _GenerateRefreshToken };

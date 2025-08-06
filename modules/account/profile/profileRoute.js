@@ -1,19 +1,19 @@
 /*
 * IMPORTS
 */
-const express = require('express')
+import express from 'express'
 
 
 /*
 * CONTROLLER
 */
-const { getProfile } = require('./profileController')
+import { getProfile } from './profileController.js'
 
 
 /*
 * MIDDLEWARE
 */
-const _AuthMiddleware = require('../../../middlewares/authMiddleware')
+import _AuthMiddleware from '../../../middlewares/authMiddleware.js'
 
 
 /*
@@ -27,8 +27,8 @@ const Router = express.Router()
 */
 Router.get('/', _AuthMiddleware, getProfile)
 
+
 /*
 * EXPORTS
 */
-module.exports = Router;
-
+export default Router

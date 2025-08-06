@@ -1,29 +1,28 @@
 /*
 * IMPORTS
 */
-const express = require('express');
-
+import express from 'express';
 
 /*
 * ROUTES
 */
-const registerRoute = require('./register/registerRoute');
-const loginRoute = require('./login/loginRoute');
-const profileRoute = require('./profile/profileRoute')
-
+import registerRoute from './register/registerRoute.js';
+import loginRoute from './login/loginRoute.js';
+import profileRoute from './profile/profileRoute.js';
 
 /*
 * ROUTER
 */
 const Router = express.Router();
 
-
 /*
 * INITIAL PATHS
 */
 Router.use('/register', registerRoute);
 Router.use('/login', loginRoute);
-Router.use('/profile', profileRoute)
+Router.use('/profile', profileRoute);
 
-
-module.exports = Router;
+/*
+* EXPORTS
+*/
+export default Router;

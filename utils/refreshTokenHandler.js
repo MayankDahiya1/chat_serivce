@@ -1,12 +1,13 @@
 /*
 * IMPORTS
 */
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
 /*
 * LOADS ENV
 */
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 /*
 * FUNCTION
@@ -45,7 +46,7 @@ function _RefreshTokenHandler(prisma) {
 
                 // If error persists
                 if(!_DeleteToken || _DeleteToken instanceof Error){
-                  return res.status(401).json({ 'message': 'Something went wrong', 'status':'SOMETHING_WENT_WRONG' })
+                  return res.status(401).json({ 'message': 'Something went wrong', 'status':'SOMETHING_WENT_WRONG' });
                 }
 
                 // Generate new tokens
@@ -74,7 +75,9 @@ function _RefreshTokenHandler(prisma) {
                 });
                 
                 // If error persists
-                if(!_CreateRefreshToken || _CreateRefreshToken instanceof Error) return res.status(401).json({ 'message': 'Something went wrong', 'status': 'SOMETHING_WENT_WRONG' })
+                if(!_CreateRefreshToken || _CreateRefreshToken instanceof Error) {
+                    return res.status(401).json({ 'message': 'Something went wrong', 'status': 'SOMETHING_WENT_WRONG' });
+                }
 
                 // If success return
                 res.json({ accessToken: _AccessToken, refreshToken: _NewRefreshToken, status: "ROTATED_SUCCESSFULLY" });
@@ -89,4 +92,4 @@ function _RefreshTokenHandler(prisma) {
 /*
 * EXPORTS
 */
-module.exports = { _RefreshTokenHandler };
+export { _RefreshTokenHandler };

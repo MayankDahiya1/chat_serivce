@@ -1,28 +1,24 @@
 /*
 * IMPORTS
 */
-const express = require('express');
-
+import express from 'express';
 
 /*
 * CONTROLLER
 */
-const { registerUser } = require('./registerController');
-
+import { registerUser } from './registerController.js';
 
 /*
 * ROUTER
 */
 const Router = express.Router();
 
-
 /*
 * PATH
 */
 Router.post('/', registerUser);
 
-
 /*
 * EXPORTS
 */
-module.exports = Router;
+export default Router;

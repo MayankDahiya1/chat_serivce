@@ -1,13 +1,13 @@
 /*
 * IMPORTS
 */
-const express = require('express');
+import express from 'express';
 
 
 /*
 * CONTROLLER
 */
-const { loginUser } = require('./loginController');
+import { loginUser } from './loginController.js';
 
 
 /*
@@ -25,4 +25,4 @@ Router.post('/', loginUser);
 /*
 * EXPORTS
 */
-module.exports = Router;
+export default Router;

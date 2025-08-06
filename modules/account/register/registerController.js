@@ -1,40 +1,38 @@
 /*
 * IMPORTS
 */
-const bcrypt = require('bcryptjs');
-
+import bcrypt from 'bcryptjs';
 
 /*
 * PRISMA (DB)
 */
-const Prisma = require('../../../config/db');
-
+import Prisma from '../../../config/db.js';
 
 /*
  * EXPORTS
  */
-exports.registerUser = async (req,res) => {
+export const registerUser = async (req, res) => {
     // Getting all the required fields from body
-    const { name, email, password } = req.body
+    const { name, email, password } = req.body;
 
     // If any of the field not exsisted
-    if(!name || !email || !password) {
-        return res.status(400).json({ 'message': 'All fields required', 'status': 'FIELDS_SUCCESSFULLY' })
+    if (!name || !email || !password) {
+        return res.status(400).json({ 'message': 'All fields required', 'status': 'FIELDS_SUCCESSFULLY' });
     }
 
     // Hashing of password
-    const _HashedPassword = await bcrypt.hash(password, 10)
+    const _HashedPassword = await bcrypt.hash(password, 10);
 
     // Pushing new user into in-memory of cpu
-    const _CreateUser =  await Prisma.user.create({
+    const _CreateUser = await Prisma.user.create({
         data: { name, email, password: _HashedPassword }
     });
 
     // If error persists
-    if(!_CreateUser || _CreateUser instanceof Error){
-        return res.status(401).json({ 'message':'Something went wrong', 'status': 'SOMETHIGN_WENT_WRONG' })
+    if (!_CreateUser || _CreateUser instanceof Error) {
+        return res.status(401).json({ 'message': 'Something went wrong', 'status': 'SOMETHIGN_WENT_WRONG' });
     }
 
     // Return success
-    res.status(201).json({ 'message': 'User creates successfully', 'status':'CREATED_SUCCESSFULLY' })
-}
+    res.status(201).json({ 'message': 'User creates successfully', 'status': 'CREATED_SUCCESSFULLY' });
+};

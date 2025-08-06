@@ -1,7 +1,7 @@
 /*
 * IMPORTS
 */
-const rateLimit = require('express-rate-limit');
+import rateLimit from 'express-rate-limit';
 
 
 /*
@@ -17,4 +17,4 @@ const limiter = rateLimit({
 /*
 * EXPORTS
 */
-module.exports = limiter;
+export default limiter;

@@ -1,32 +1,32 @@
 /*
 * IMPORTS
 */
-const bcrypt = require('bcryptjs');
+import bcrypt from 'bcryptjs';
 
 
 /*
 * PRISMA (DB)
 */
-const Prisma = require('../../../config/db');
+import Prisma from '../../../config/db.js';
 
 
 /*
 * UTILS (HELPERS)
 */
-const { _GenerateAccessToken, _GenerateRefreshToken } = require('../../../utils/generateTokens');
+import { _GenerateAccessToken, _GenerateRefreshToken } from '../../../utils/generateTokens.js';
 
 
 /*
 * EXPORTS
 */
-exports.loginUser = async (req, res) => {
+export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
         return res.status(401).json({ error: 'All fields required' });
     }
 
-    const _User = await prisma.user.findUnique({ where: { email } });
+    const _User = await Prisma.user.findUnique({ where: { email } });
 
     if (!_User) {
         return res.status(401).json({ message: 'Invalid email or password', status: 'INVALID_EMAIL_PASSWORD' });

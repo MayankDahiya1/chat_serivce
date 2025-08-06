@@ -1,15 +1,15 @@
 /*
 * IMPORTS
 */
-const express = require("express"); // NPM: Web framework for node.js to simplify hadling http requests
-const helmet = require('helmet');
-const limiter = require('./middlewares/rateLimiter');
+import express from "express"; // NPM: Web framework for Node.js to simplify handling HTTP requests
+import helmet from "helmet";
+import limiter from "./middlewares/rateLimiter.js";
 
 
 /*
 * ROUTES
 */
-const AccountRoutes = require('./modules/account/accountRoutes');
+import AccountRoutes from "./modules/account/accountRoutes.js";
 
 
 /*
@@ -43,4 +43,4 @@ _App.use('/api/account', AccountRoutes)
 /*
 * EXPORTS
 */
-module.exports = _App;
+export default _App;
