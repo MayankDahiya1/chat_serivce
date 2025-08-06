@@ -1,28 +1,29 @@
 /*
-* IMPORTS
-*/
-import express from 'express';
+ * IMPORTS
+ */
+import express from "express";
 
 /*
-* ROUTES
-*/
-import registerRoute from './register/registerRoute.js';
-import loginRoute from './login/loginRoute.js';
-import profileRoute from './profile/profileRoute.js';
+ * ROUTES
+ */
+import registerRoute from "./register/registerRoute.js";
+import loginRoute from "./login/loginRoute.js";
+import profileRoute from "./profile/profileRoute.js";
 
 /*
-* ROUTER
-*/
+ * ROUTER
+ */
 const Router = express.Router();
 
 /*
-* INITIAL PATHS
-*/
-Router.use('/register', registerRoute);
-Router.use('/login', loginRoute);
-Router.use('/profile', profileRoute);
+ * INITIAL PATHS
+ */
+
+Router.use("/register", registerRoute);
+Router.use("/login", loginRoute);
+Router.use("/profile", profileRoute);
 
 /*
-* EXPORTS
-*/
+ * EXPORTS
+ */
 export default Router;
