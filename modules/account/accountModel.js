@@ -1,7 +1,7 @@
 /*
  * EXPORTS
  */
-export const UserModel = DB.user;
+export const UserModel = DB.account;
 export const RefreshTokenModel = DB.refreshToken;
 
 /*

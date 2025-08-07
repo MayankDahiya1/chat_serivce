@@ -54,7 +54,7 @@ function _RefreshTokenHandler(prisma) {
     // Try
     try {
       // Find token in DB
-      const storedToken = await prisma.refreshToken.findUnique({ where: { token } });
+      const storedToken = await DB.refreshToken.findUnique({ where: { token } });
 
       // If token not found
       if (!storedToken) {
@@ -76,7 +76,7 @@ function _RefreshTokenHandler(prisma) {
             .json({ status: 'TOKEN_EXPIRED', message: 'Refresh token expired' });
 
         // Delete old token (rotation)
-        const _DeleteToken = await prisma.refreshToken.delete({ where: { token } });
+        const _DeleteToken = await DB.refreshToken.delete({ where: { token } });
 
         // If error persists
         if (!_DeleteToken || _DeleteToken instanceof Error) {
@@ -98,13 +98,13 @@ function _RefreshTokenHandler(prisma) {
         );
 
         // Pushing new refresh token in db
-        const _CreateRefreshToken = await prisma.refreshToken.create({
+        const _CreateRefreshToken = await DB.refreshToken.create({
           data: {
             token: _NewRefreshToken,
             device,
             ip,
             expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-            userId: user.id,
+            Account__fk__: user.id,
           },
         });
 
