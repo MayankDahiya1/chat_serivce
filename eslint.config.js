@@ -9,10 +9,11 @@ export default [
     plugins: { js, prettier },
     extends: [
       "js/recommended",
-      "plugin:prettier/recommended" // 👈 Prettier integration
+      "plugin:prettier/recommended", // 👈 Prettier integration
     ],
     rules: {
-      "prettier/prettier": ["error", { singleQuote: true, semi: true }]
-    }
-  }
+      "prettier/prettier": ["error", { singleQuote: true, semi: true }],
+      "no-undef": "error", // 👈 undefined variables detect karega
+    },
+  },
 ];

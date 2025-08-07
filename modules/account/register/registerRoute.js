@@ -1,24 +1,24 @@
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 import express from 'express';
 
 /*
-* CONTROLLER
-*/
-import { registerUser } from './registerController.js';
+ * CONTROLLER
+ */
+import RegisterUser from './registerController.js';
 
 /*
-* ROUTER
-*/
+ * ROUTER
+ */
 const Router = express.Router();
 
 /*
-* PATH
-*/
-Router.post('/', registerUser);
+ * PATH
+ */
+Router.post('/', RegisterUser);
 
 /*
-* EXPORTS
-*/
+ * EXPORTS
+ */
 export default Router;

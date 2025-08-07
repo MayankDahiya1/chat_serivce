@@ -1,34 +1,29 @@
 /*
-* IMPORTS
-*/
-import express from 'express'
-
-
-/*
-* CONTROLLER
-*/
-import { getProfile } from './profileController.js'
-
+ * IMPORTS
+ */
+import express from 'express';
 
 /*
-* MIDDLEWARE
-*/
-import _AuthMiddleware from '../../../middlewares/authMiddleware.js'
-
-
-/*
-* ROUTER INTIALIZATION
-*/
-const Router = express.Router()
-
+ * CONTROLLER
+ */
+import GetProfile from './profileController.js';
 
 /*
-* ROUTER PATH
-*/
-Router.get('/', _AuthMiddleware, getProfile)
-
+ * MIDDLEWARE
+ */
+import _AuthMiddleware from '../../../middlewares/authMiddleware.js';
 
 /*
-* EXPORTS
-*/
-export default Router
+ * ROUTER INTIALIZATION
+ */
+const Router = express.Router();
+
+/*
+ * ROUTER PATH
+ */
+Router.get('/', _AuthMiddleware, GetProfile);
+
+/*
+ * EXPORTS
+ */
+export default Router;

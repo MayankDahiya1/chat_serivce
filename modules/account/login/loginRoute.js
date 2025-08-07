@@ -1,28 +1,24 @@
 /*
-* IMPORTS
-*/
+ * IMPORTS
+ */
 import express from 'express';
 
+/*
+ * CONTROLLER
+ */
+import LoginUser from './loginController.js';
 
 /*
-* CONTROLLER
-*/
-import { loginUser } from './loginController.js';
-
-
-/*
-* ROUTER
-*/
+ * ROUTER
+ */
 const Router = express.Router();
 
+/*
+ * PATH
+ */
+Router.post('/', LoginUser);
 
 /*
-* PATH
-*/
-Router.post('/', loginUser);
-
-
-/*
-* EXPORTS
-*/
+ * EXPORTS
+ */
 export default Router;
