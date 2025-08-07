@@ -6,7 +6,7 @@ import express from 'express';
 /*
  * CONTROLLER
  */
-import RegisterUser from './registerController.js';
+import GoogleRegister from './controller.js';
 
 /*
  * ROUTER
@@ -16,7 +16,7 @@ const Router = express.Router();
 /*
  * PATH
  */
-Router.post('/', RegisterUser);
+Router.post('/', GoogleRegister);
 
 /*
  * EXPORTS

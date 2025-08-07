@@ -11,17 +11,17 @@ import { asyncHandler } from '../../../utils/asyncHandler.js';
 /*
  * MODELS
  */
-import { UserModel } from '../accountModel.js';
+import { UserModel } from '../model.js';
 
 /*
  * UTILs
  */
-import { _GenerateAccessToken, _GenerateRefreshToken } from '../accountUtils.js';
+import { _GenerateAccessToken, _GenerateRefreshToken } from '../utils.js';
 
 /*
  * VALIDATIONS
  */
-import { RegisterSchema } from './registerValidation.js';
+import { RegisterSchema } from './validation.js';
 
 /*
  * CONST

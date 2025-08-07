@@ -6,19 +6,19 @@ import express from 'express';
 /*
  * CONTROLLER
  */
-import SettingController from './settingsController.js';
+import RegisterUser from './controller.js';
 
 /*
- * ROUTE ASSIGNMENT
+ * ROUTER
  */
 const Router = express.Router();
 
 /*
  * PATH
  */
-Router.get('/', SettingController);
+Router.post('/', RegisterUser);
 
 /*
- * EXPORT
+ * EXPORTS
  */
 export default Router;

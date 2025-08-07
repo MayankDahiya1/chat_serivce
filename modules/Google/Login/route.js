@@ -6,7 +6,7 @@ import express from 'express';
 /*
  * CONTROLLER
  */
-import LoginUser from './loginController.js';
+import GoogleLogin from './controller.js';
 
 /*
  * ROUTER
@@ -16,7 +16,7 @@ const Router = express.Router();
 /*
  * PATH
  */
-Router.post('/', LoginUser);
+Router.post('/', GoogleLogin);
 
 /*
  * EXPORTS

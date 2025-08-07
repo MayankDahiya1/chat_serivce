@@ -28,7 +28,7 @@ async function _GenerateRefreshToken(userId, payload, device, ip) {
       device,
       ip,
       expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      userId,
+      Account__fk__: userId,
     },
   });
 

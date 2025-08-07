@@ -1,24 +1,25 @@
 /*
  * GLOBAL
  */
-import "./globals.js";
+import './globals.js';
 
 /*
  * IMPORTS
  */
-import express from "express"; // NPM: Web framework for Node.js to simplify handling HTTP requests
-import helmet from "helmet";
-import limiter from "./middlewares/rateLimiter.js";
+import express from 'express';
+import helmet from 'helmet';
+import limiter from './middlewares/rateLimiter.js';
 
 /*
  * ROUTES
  */
-import AccountRoutes from "./modules/account/accountRoutes.js";
+import AccountRoutes from './modules/Account/routes.js';
+import GoogleRoutes from './modules/Google/routes.js';
 
 /*
  * MIDDLEWARES
  */
-import ErrorHandler from "./middlewares/errorHandler.js";
+import ErrorHandler from './middlewares/errorHandler.js';
 
 /*
  * CONST
@@ -37,14 +38,17 @@ _App.use(limiter);
 /*
  * Health check
  */
-_App.get("/health", (req, res) =>
-  res.status(200).json({ status: "OK", timestamp: new Date() }),
-);
+_App.get('/health', (req, res) => res.status(200).json({ status: 'OK', timestamp: new Date() }));
 
 /*
- * ROUTE PATH
+ * ROUTE PATH (ACCOUNT)
  */
-_App.use("/api/account", AccountRoutes);
+_App.use('/api/account', AccountRoutes);
+
+/*
+ * ROUTE PATH (GOOGLE)
+ */
+_App.use('/api/google', GoogleRoutes);
 
 /*
  * ERROR HANDLER

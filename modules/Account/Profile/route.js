@@ -6,7 +6,7 @@ import express from 'express';
 /*
  * CONTROLLER
  */
-import GetProfile from './profileController.js';
+import GetProfile from './controller.js';
 
 /*
  * MIDDLEWARE

@@ -6,17 +6,17 @@ import bcrypt from 'bcryptjs';
 /*
  * UTILs
  */
-import { _GenerateAccessToken, _GenerateRefreshToken } from '../accountUtils.js';
+import { _GenerateAccessToken, _GenerateRefreshToken } from '../utils.js';
 
 /*
  * MODELS
  */
-import { UserModel } from '../accountModel.js';
+import { UserModel } from '../model.js';
 
 /*
  * VALIDATIONS
  */
-import { LoginSchema } from './loginValidation.js';
+import { LoginSchema } from './validation.js';
 
 /*
  * CONST
