@@ -1,16 +1,15 @@
 /*
-* IMPORTS
-*/
-import { PrismaClient } from '@prisma/client';
-
+ * IMPORTS
+ */
+import pkg from '@prisma/client';
+const { PrismaClient } = pkg;
 
 /*
-* CONST
-*/
+ * CONST
+ */
 const Prisma = new PrismaClient();
 
-
 /*
-* EXPORTS
-*/
+ * EXPORTS
+ */
 export default Prisma;
