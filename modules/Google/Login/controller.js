@@ -5,7 +5,7 @@ import { google } from 'googleapis';
 import { UserModel } from '../model.js';
 import { _GenerateAccessToken, _GenerateRefreshToken } from '../../Account/utils.js';
 import { asyncHandler } from '../../../utils/asyncHandler.js';
-import ApiError from '../../../utils/ApiError.js';
+import ApiError from '../../../utils/apiError.js';
 
 /*
  * CONST: Google OAuth2 Client
