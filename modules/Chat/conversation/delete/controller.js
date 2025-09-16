@@ -16,9 +16,10 @@ const DeleteConversation = async (req, res) => {
       return res.status(401).json({ status: 'UNAUTHORIZED', message: 'User not authenticated' });
 
     // Create conversation
-    const _Conversation = await DB.chatConversation.create({
+    const _Conversation = await DB.chatConversation.findUnique({
       data: {
         id: conversationId,
+        userId: req.userId,
       },
     });
 

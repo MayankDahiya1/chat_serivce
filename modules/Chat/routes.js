@@ -4,6 +4,11 @@
 import express from 'express';
 
 /*
+ * MIDDLEWARES
+ */
+import _AuthMiddleware from '../../middlewares/authMiddleware.js';
+
+/*
  * ROUTES
  */
 import ChatGetConversation from './conversation/get/route.js';
@@ -22,12 +27,12 @@ const Router = express.Router();
  * INITIAL PATHS
  */
 
-Router.use('/get/conversation', ChatGetConversation);
-Router.use('/start/conversation', ChatStartConversation);
-Router.use('/delete-all/conversation', ChatAllConversationDelete);
-Router.use('/delete/conversation', ChatConversationDelete);
-Router.use('/get/messages', ChatGetMessages);
-Router.use('/get/messages', ChatSendMessage);
+Router.use('/get/conversation', _AuthMiddleware, ChatGetConversation);
+Router.use('/start/conversation', _AuthMiddleware, ChatStartConversation);
+Router.use('/delete-all/conversation', _AuthMiddleware, ChatAllConversationDelete);
+Router.use('/delete/conversation', _AuthMiddleware, ChatConversationDelete);
+Router.use('/get/messages', _AuthMiddleware, ChatGetMessages);
+Router.use('/send/messages', _AuthMiddleware, ChatSendMessage);
 
 /*
  * EXPORTS

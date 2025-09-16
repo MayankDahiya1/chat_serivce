@@ -3,6 +3,7 @@
  */
 import { StartConversationSchema } from './validation.js';
 import { generateResponse } from '../../../../services/LLMService.js';
+import { producer } from '../../../../kafka/kafkaClient.js';
 
 /*
  * START CONVERSATION CONTROLLER
@@ -36,6 +37,22 @@ const StartConversation = async (req, res) => {
 
     // Call LLM service to generate assistant response
     const assistantMessage = await generateResponse(conversation.id, req.userId, message);
+
+    // Conversation created event for analytics
+    await producer.send({
+      topic: 'conversation-created',
+      messages: [
+        {
+          key: req.userId.toString(),
+          value: JSON.stringify({
+            conversationId: conversation.id,
+            title: conversation.title,
+            userId: req.userId,
+            createdAt: conversation.createdAt,
+          }),
+        },
+      ],
+    });
 
     // Return response
     res.json({

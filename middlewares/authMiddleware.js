@@ -1,35 +1,38 @@
 /*
  * IMPORTS
  */
-import jwt from 'jsonwebtoken'; // NPM: Token verification for security measures
+import jwt from 'jsonwebtoken';
 
 /*
- * FUNCTION
+ * VERIFY TOKEN UTILITY
  */
-const _AuthMiddleware = (req, res, next) => {
-  // Getting header
-  const _AuthHeader = req.headers.authorization;
+const verifyToken = (token) => {
+  if (!token) return null;
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    return null;
+  }
+};
 
-  // If auth headers is not there
-  if (!_AuthHeader)
-    return res.status(401).json({ status: 'NO_TOKEN_FOUND', message: 'No token found' });
+/*
+ * EXPRESS MIDDLEWARE
+ */
+const AuthMiddleware = (req, res, next) => {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.split(' ')[1] : null;
 
-  // Getting token from auth header
-  const _Token = _AuthHeader.split(' ')[1];
+  const decoded = verifyToken(token);
 
-  // Verifying token through jwt
-  jwt.verify(_Token, process.env.JWT_SECRET, (err, decoded) => {
-    // If error persists
-    if (err) return res.status(401).json({ status: 'TOKEN_EXPIRED', message: 'Token is expired' });
+  if (!decoded) {
+    return res.status(401).json({ status: 'UNAUTHORIZED', message: 'Invalid or expired token' });
+  }
 
-    // decoded payload ka access har route me
-    req.user = decoded;
-
-    next();
-  });
+  req.user = decoded;
+  next();
 };
 
 /*
  * EXPORTS
  */
-export default _AuthMiddleware;
+export default AuthMiddleware;
