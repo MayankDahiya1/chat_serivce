@@ -1,12 +1,11 @@
 {
-  "name": "1",
+  "name": "chat_service",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Chat microservice for conversations and messages",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js",
+    "dev": "DEBUG=* nodemon server.js",
     "start": "node server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
@@ -33,6 +32,7 @@
     "playwright": "^1.55.0",
     "prisma": "^6.13.0",
     "socket.io": "^4.8.1",
+    "underscore": "^1.13.7",
     "zod": "^4.0.15"
   },
   "devDependencies": {

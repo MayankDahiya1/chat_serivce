@@ -16,7 +16,7 @@ export async function initAccountConsumer() {
   await consumer.subscribe({ topic: 'account-deleted', fromBeginning: false });
 
   await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
+    eachMessage: async ({ topic: _topic, partition: _partition, message }) => {
       try {
         const payload = JSON.parse(message.value.toString());
         const { userId } = payload;
@@ -33,7 +33,7 @@ export async function initAccountConsumer() {
           return _ConversationsDelete;
         }
 
-        log(`Deleted ${conversations.length} conversations for user ${userId}`);
+        log(`Deleted ${_ConversationsDelete.count || 0} conversations for user ${userId}`);
       } catch (err) {
         log('Error processing account-deleted event:', err);
       }

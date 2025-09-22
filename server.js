@@ -14,7 +14,7 @@ import { initConsumers } from './kafka/consumers/index.js';
 const httpServer = http.createServer(_App);
 const io = new Server(httpServer, {
   cors: {
-    origin: '*', // ⚠️ change to your frontend URL in prod
+    origin: '*',
     methods: ['GET', 'POST'],
   },
 });
@@ -30,29 +30,30 @@ global._io = io;
 async function startServer() {
   try {
     await initKafka();
-    console.log('Kafka connected');
+    _ServerLog('Kafka connection established successfully');
 
     await initConsumers();
-    console.log('Kafka consumers started');
+    _ServerLog('Kafka consumers initialized and started');
 
     httpServer.listen(ENV.PORT, () => {
-      console.log(`🚀 Server running on http://localhost:${ENV.PORT}`);
+      _ServerLog(`Server running on http://localhost:${ENV.PORT}`);
     });
 
     io.on('connection', (socket) => {
-      console.log('⚡ Client connected:', socket.id);
+      _ServerLog('Client connected: %s', socket.id);
 
       socket.on('join', (userId) => {
-        console.log(`📌 User ${userId} joined`);
-        socket.join(userId); // join personal room
+        _ServerLog('User %s joined', userId);
+        socket.join(userId);
       });
 
       socket.on('disconnect', () => {
-        console.log('❌ Client disconnected:', socket.id);
+        _ServerLog('Client disconnected: %s', socket.id);
       });
     });
   } catch (err) {
-    console.error('Server startup failed:', err);
+    _ErrorLog('Server startup failed: %s', err.message);
+    _ErrorLog('Stack trace: %s', err.stack);
     process.exit(1);
   }
 }

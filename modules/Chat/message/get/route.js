@@ -16,7 +16,7 @@ const Router = express.Router();
 /*
  * PATH
  */
-Router.post('/:conversationId/messages', GetMessages);
+Router.get('/:conversationId', GetMessages);
 
 /*
  * EXPORTS

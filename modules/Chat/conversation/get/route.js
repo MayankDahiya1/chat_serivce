@@ -16,7 +16,7 @@ const Router = express.Router();
 /*
  * PATH
  */
-Router.post('/', ConversationGet);
+Router.get('/', ConversationGet);
 
 /*
  * EXPORTS

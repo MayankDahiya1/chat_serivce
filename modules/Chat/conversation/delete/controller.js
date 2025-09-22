@@ -1,66 +1,69 @@
 /*
  * IMPORTS
  */
-import { DeleteonversationSchema } from './validation.js';
+import { DeleteConversationSchema } from './validation.js';
 
 /*
  * DELETE CONVERSATION CONTROLLER
  */
-const DeleteConversation = async (req, res) => {
-  try {
-    // Validate request
-    const { conversationId } = DeleteonversationSchema.parse(req.body);
+const DeleteConversation = asyncHandler(async (req, res) => {
+  // Validate request
+  const { conversationId } = DeleteConversationSchema.parse(req.body);
 
-    // Auth check
-    if (!req.userId)
-      return res.status(401).json({ status: 'UNAUTHORIZED', message: 'User not authenticated' });
+  _ChatLog('Deleting conversation: %s for user: %s', conversationId, req.user.id);
 
-    // Create conversation
-    const _Conversation = await DB.chatConversation.findUnique({
-      data: {
-        id: conversationId,
-        userId: req.userId,
-      },
+  // Auth check
+  if (!req.user?.id) {
+    _AuthLog('Unauthorized conversation deletion attempt');
+    return res.status(401).json({
+      status: 'UNAUTHORIZED',
+      message: 'Authentication required to delete conversation',
     });
-
-    // If error persists
-    if (_Conversation instanceof Error) {
-      return _Conversation;
-    }
-
-    // If empty
-    if (!_Conversation) {
-      return new Error('Conversation not found.');
-    }
-
-    // Create conversation
-    const _ConversationDelete = await DB.chatConversation.delete({
-      data: {
-        id: _Conversation.id,
-      },
-    });
-
-    // If error persists
-    if (_ConversationDelete instanceof Error) {
-      return _ConversationDelete;
-    }
-
-    // If empty
-    if (!_ConversationDelete) {
-      return new Error('Conversation not delete somthing went wrong.');
-    }
-
-    // Return response
-    res.json({
-      status: 'SUCCESSFULLY_DELETED',
-      message: 'Conversation deleted successfully.',
-    });
-  } catch (err) {
-    if (err.name === 'ZodError') {
-      return res.status(400).json({ status: 'INVALID_INPUT', message: err.errors });
-    }
-    throw new ApiError(err.message || 'Something went wrong during conversation start');
   }
-};
+
+  // Find conversation and verify ownership
+  const _Conversation = await DB.chatConversation.findFirst({
+    where: {
+      id: conversationId,
+      userId: req.user.id,
+    },
+  });
+
+  // If conversation not found or not owned by user
+  if (!_Conversation) {
+    _ChatLog(
+      'Conversation not found or unauthorized access: %s for user: %s',
+      conversationId,
+      req.user.id
+    );
+    return res.status(404).json({
+      status: 'NOT_FOUND',
+      message: 'Conversation not found or you do not have permission to delete it',
+    });
+  }
+
+  // Delete conversation (cascade will delete messages)
+  const _ConversationDelete = await DB.chatConversation.delete({
+    where: {
+      id: _Conversation.id,
+    },
+  });
+
+  if (!_ConversationDelete) {
+    _ErrorLog('Failed to delete conversation: %s', conversationId);
+    return res.status(500).json({
+      status: 'DATABASE_ERROR',
+      message: 'Unable to delete conversation. Please try again.',
+    });
+  }
+
+  _ChatLog('Successfully deleted conversation: %s for user: %s', conversationId, req.user.id);
+
+  // Return response
+  res.json({
+    status: 'SUCCESS',
+    message: 'Conversation deleted successfully',
+  });
+});
 
 export default DeleteConversation;

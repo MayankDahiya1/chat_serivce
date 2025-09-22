@@ -2,32 +2,36 @@
  * IMPORTS
  */
 import { Kafka } from 'kafkajs';
-import debug from 'debug';
 
 /*
- * LOGGER
+ * KAFKA CONFIGURATION
  */
-const _Log = debug('app:kafka');
-
 const kafka = new Kafka({
-  clientId: 'app-service',
-  brokers: [process.env.KAFKA_BROKER || '127.0.0.1:9092'],
+  clientId: 'chat-service',
+  brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
 });
 
-/*
- * EXPORTS
- */
 export const producer = kafka.producer();
-export const consumer = kafka.consumer({ groupId: 'app-service-group' });
+export const consumer = kafka.consumer({ groupId: 'chat-service-group' });
 
 export async function initKafka() {
-  await producer.connect();
-  await consumer.connect();
-  _Log('Kafka connected');
+  try {
+    await producer.connect();
+    await consumer.connect();
+    _KafkaLog('Kafka connection established successfully');
+  } catch (error) {
+    _ErrorLog('Kafka connection failed: %s', error.message);
+    throw error;
+  }
 }
 
 export async function shutdownKafka() {
-  await producer.disconnect();
-  await consumer.disconnect();
-  _Log('Kafka disconnected');
+  try {
+    await producer.disconnect();
+    await consumer.disconnect();
+    _KafkaLog('Kafka connections closed successfully');
+  } catch (error) {
+    _ErrorLog('Kafka shutdown error: %s', error.message);
+    throw error;
+  }
 }
