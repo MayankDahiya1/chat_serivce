@@ -1,0 +1,45 @@
+name: Deploy Chat Service
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-deploy:
+    runs-on: self-hosted
+    environment: production
+    steps:
+      # 1. Checkout repo
+      - uses: actions/checkout@v3
+
+      # 2. DockerHub login
+      - name: Log in to DockerHub
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      # 3. Build Docker image
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/chat_service:latest .
+
+      # 4. Push Docker image
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/chat_service:latest
+
+      # 5. Restart container on server
+      - name: Restart container on server
+        run: |
+          docker stop chat_service || true
+          docker rm chat_service || true
+          docker run -d --name chat_service \
+            -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+            -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
+            -e REFRESH_SECRET="${{ secrets.REFRESH_SECRET }}" \
+            -e PORT="${{ secrets.PORT }}" \
+            -e NODE_ENV="${{ secrets.NODE_ENV }}" \
+            -e KAFKA_BROKER="${{ secrets.KAFKA_BROKER }}" \
+            -e REDIS_URL="${{ secrets.REDIS_URL }}" \
+            -e PINECONE_API_KEY="${{ secrets.PINECONE_API_KEY }}" \
+            -e PINECONE_ENV="${{ secrets.PINECONE_ENV }}" \
+            -e PINECONE_HOST="${{ secrets.PINECONE_HOST }}" \
+            -e LLM_API_KEY="${{ secrets.LLM_API_KEY }}" \
+            -p 4002:4002 \
+            ${{ secrets.DOCKERHUB_USERNAME }}/chat_service:latest
