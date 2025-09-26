@@ -35,8 +35,8 @@ async function startServer() {
     await initConsumers();
     _ServerLog('Kafka consumers initialized and started');
 
-    httpServer.listen(ENV.PORT, () => {
-      _ServerLog(`Server running on http://localhost:${ENV.PORT}`);
+    httpServer.listen(ENV.PORT, '0.0.0.0', () => {
+    _ServerLog(`Server running on http://0.0.0.0:${ENV.PORT}`);
     });
 
     io.on('connection', (socket) => {
