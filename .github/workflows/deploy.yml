@@ -36,12 +36,14 @@ jobs:
           fi
 
           docker run -d --name chat_service \
+            --network microservices-infra_default \      # 🔹 Network connect
             -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
             -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
             -e REFRESH_SECRET="${{ secrets.REFRESH_SECRET }}" \
             -e NODE_ENV="${{ secrets.NODE_ENV }}" \
-            -e KAFKA_BROKER="${{ secrets.KAFKA_BROKER }}" \
-            -e REDIS_URL="${{ secrets.REDIS_URL }}" \
+            -e KAFKA_BROKER="kafka:9092" \                # 🔹 Kafka container name
+            -e REDIS_HOST="redis" \                       # 🔹 Redis container name
+            -e REDIS_PORT="6379" \                        # 🔹 Redis port fix
             -e PINECONE_API_KEY="${{ secrets.PINECONE_API_KEY }}" \
             -e PINECONE_ENV="${{ secrets.PINECONE_ENV }}" \
             -e PINECONE_HOST="${{ secrets.PINECONE_HOST }}" \
