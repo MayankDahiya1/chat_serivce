@@ -27,13 +27,18 @@ jobs:
       # 5. Restart container on server
       - name: Restart container on server
         run: |
-          docker stop chat_service || true
-          docker rm chat_service || true
+          if [ "$(docker ps -q -f name=chat_service)" ]; then
+            echo "🔄 Restarting existing container..."
+            docker stop chat_service
+            docker rm chat_service
+          else
+            echo "🚀 No existing container, creating new one..."
+          fi
+
           docker run -d --name chat_service \
             -e DATABASE_URL="${{ secrets.DATABASE_URL }}" \
             -e JWT_SECRET="${{ secrets.JWT_SECRET }}" \
             -e REFRESH_SECRET="${{ secrets.REFRESH_SECRET }}" \
-            -e PORT="${{ secrets.PORT }}" \
             -e NODE_ENV="${{ secrets.NODE_ENV }}" \
             -e KAFKA_BROKER="${{ secrets.KAFKA_BROKER }}" \
             -e REDIS_URL="${{ secrets.REDIS_URL }}" \
