@@ -58,6 +58,7 @@ jobs:
             -e KAFKA_BROKER="kafka:9092" \
             -e REDIS_HOST="redis" \
             -e REDIS_PORT="6379" \
+            -e PORT=4002 \
             -e PINECONE_API_KEY="${{ secrets.PINECONE_API_KEY }}" \
             -e PINECONE_ENV="${{ secrets.PINECONE_ENV }}" \
             -e PINECONE_HOST="${{ secrets.PINECONE_HOST }}" \
