@@ -6,7 +6,7 @@ WORKDIR /app
 RUN npm install -g pnpm
 
 # Copy dependency files
-COPY package.json pnpm-lock.yaml* tsconfig.json ./
+COPY package.json pnpm-lock.yaml* ./
 COPY prisma ./prisma
 
 # Install dependencies
@@ -18,8 +18,9 @@ RUN npx prisma generate
 # Copy source files
 COPY . .
 
-# Build application (if TS used)
-RUN pnpm build
+# No build step needed for JavaScript (remove pnpm build)
+# If you add TypeScript later, uncomment the below line
+# RUN pnpm build
 
 
 # Stage 2: Runtime
@@ -33,7 +34,7 @@ RUN npm install -g pnpm
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/prisma ./prisma
-COPY --from=build /app/dist ./dist
+COPY --from=build /app ./
 
 # Expose port
 EXPOSE 4002
