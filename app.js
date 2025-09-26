@@ -44,8 +44,6 @@ _App.get('/health', (req, res) => res.status(200).json({ status: 'OK', timestamp
  */
 _App.use('/api/chat', ChatRoutes);
 
-// Testing
-
 /*
  * ERROR HANDLER
  */
